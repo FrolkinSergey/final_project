@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  selenoid:
+    image: "aerokube/selenoid"
+    network_mode: bridge
+    ports:
+      - "4444:4444"
+    volumes:
+      - "/Users/sergeyfrolkin/.jenkins/workspace/homework/:/etc/selenoid/" # assumed current dir contains browsers.json
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  selenoid-ui:
+    image: "aerokube/selenoid-ui"
+    network_mode: bridge
+    depends_on:
+      - selenoid
+    links:
+      - selenoid
+    ports:
+      - "8090:8080"
+    command: [ "--selenoid-uri", "http://${EX_IP}:4444" ]
+
+  chrome124:
+    image: selenoid/chrome:124.0
+    depends_on:
+      - selenoid
+      - selenoid-ui
+
+  chrome123:
+    image: selenoid/chrome:123.0
+    depends_on:
+      - selenoid
+      - selenoid-ui
+
+  tests:
+    image: tests_container:v1
+    build:
+      dockerfile: tests/Dockerfile
+    depends_on:
+      - opencart
+      - selenoid
+      - selenoid-ui
+    command: ./wait-for-it.sh ${EX_IP} 8081 -- pytest /tests -url ${URL} -ex_url ${EX_IP} -n ${N} --browser ${BROWSER} --bv ${BV} --vnc
+    container_name: tests_container
+    networks:
+      - test_net
+    volumes:
+      - "/Users/sergeyfrolkin/.jenkins/workspace/homework/allure-results/:/allure-results/"
+      - "/Users/sergeyfrolkin/.jenkins/workspace/homework/tests/logs/:/tests/logs/"
+
+networks:
+  test_net:
+
+volumes:
+  mariadb_data:
+    driver: local
+  opencart_data:
+    driver: local
+  opencart_storage_data:
+    driver: local
