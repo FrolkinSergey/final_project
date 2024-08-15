@@ -14,15 +14,15 @@ class BasePage:
         return f"//*[text()='{text}']"
 
     def get_element(self, locator: tuple, timeout=15):
-        """Получение элемента по локатору"""
+        """Получение конкретного элемента по локатору"""
         return WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located(locator))
 
     def get_elements(self, locator: tuple, timeout=3):
-        """Получение элементов по локатору"""
+        """Получение нескольких элементов по локатору"""
         return WebDriverWait(self.browser, timeout).until(EC.presence_of_all_elements_located(locator))
 
     def click(self, locator: tuple):
-        """Процесс нажатия на кнопку по локатору"""
+        """Нажатие на кнопку по локатору"""
         ActionChains(self.browser).move_to_element(self.get_element(locator)).pause(0.3).click().perform()
 
     def input_value(self, locator: tuple, text: str):

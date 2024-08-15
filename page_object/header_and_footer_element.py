@@ -3,8 +3,10 @@ from page_object.base_page import BasePage
 
 
 class HeaderElement(BasePage):
-    LOGO = By.XPATH, '//*[title="Your Store"]'
-    SEARCH_FIELD = By.CSS_SELECTOR, '[name="search"]'
+    BRAND = By.XPATH, '//*[@class="navbar-brand"]'
+    PROFILE = By.XPATH, '//*[@href="icon-profile"]'
+    LOGOUT_BUTTON = By.XPATH, '//*[@href="icon-sign-out"]'
+
     CART_HIDDEN = By.XPATH, '//*[@class="btn btn-lg btn-inverse btn-block dropdown-toggle"]'
     CART_SHOW = By.XPATH, '//*[@class="btn btn-lg btn-inverse btn-block dropdown-toggle show"]'
     EMPTY_CART_TEXT = By.XPATH, '//*[@class="text-center p-4"]'
@@ -18,15 +20,31 @@ class HeaderElement(BasePage):
     CURRENCY_POUND_STERLING = By.XPATH, '//*[@href="GBP"]'
     CURRENCY_US_DOLLAR = By.XPATH, '//*[@href="USD"]'
 
-    def get_logo(self):
-        """Получение логотипа"""
-        self.logger.debug("Get logo")
-        return self.get_element(self.LOGO)
+    def get_navbar_brand(self):
+        """Полчуение поля бренда - достоверность нахождения в зоне Wi-Fi 2.0 ЛК/ПА"""
+        self.logger.debug("Get navbar_brand")
+        return self.get_element(self.BRAND)
 
-    def get_search_field(self):
-        """Получение поля поиска"""
+    def get_(self):
+        """Полчуение поля бренда - достоверность нахождения в зоне Wi-Fi 2.0 ЛК/ПА"""
+        self.logger.debug("Get navbar_brand")
+        return self.get_element(self.BRAND)
+
+    def click_logout_button(self):
+        """Нажатие кнопки выхода ЛК/ПА"""
+        self.logger.debug("Get logout button")
+        self.click(self.LOGOUT_BUTTON)
+
+    def click_profile_button(self):
+        """Нажатие кнопки профиля ЛК/ПА"""
         self.logger.debug("Get search field")
-        return self.get_element(self.SEARCH_FIELD)
+        self.click(self.PROFILE)
+
+
+
+
+
+
 
     def click_cart_hidden(self):
         """Нажание на пустую корзину"""

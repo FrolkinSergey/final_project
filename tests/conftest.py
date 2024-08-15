@@ -9,7 +9,8 @@ from selenium.webdriver.safari.options import Options as SafariOption
 
 def pytest_addoption(parser):
     parser.addoption("--browser", default="chrome", choices=["chrome", "firefox", "safari"])
-    parser.addoption("--url", default=f"client.dev.wf.rt.ru")
+    parser.addoption("--panel", default="client", choices=["client", "adm"])
+    parser.addoption("--stand", default=f"dev", choices=["dev", "test", "pre"])
     parser.addoption("--ex_ip", default=f"192.168.0.100")
     parser.addoption("--log_level", action="store", default="INFO")
     parser.addoption("--vnc", action="store_true")
@@ -32,14 +33,21 @@ def pytest_runtest_makereport(item):
 def browser(request):
     browser_name = request.config.getoption("--browser")
     log_level = request.config.getoption("--log_level")
-    url = request.config.getoption("--url")
+    panel = request.config.getoption("--panel")
+    stand = request.config.getoption("--stand")
     ex_ip = request.config.getoption("--ex_ip")
     vnc = request.config.getoption("--vnc")
     version = request.config.getoption("--bv")
     logs = request.config.getoption("--logs")
     video = request.config.getoption("--video")
 
-    base_url = f"https://{url}/"
+    if panel == "client":
+        base_url = f"https://client.{stand}.wf.rt.ru/"
+    elif panel == "adm":
+        base_url = f"https://adm.{stand}.wf.rt.ru/"
+    else:
+        raise ValueError(f"Panel {panel} not supported")
+
     executor_url = f"http://{ex_ip}:4444/wd/hub"
 
     logger = logging.getLogger(request.node.name)
@@ -55,7 +63,7 @@ def browser(request):
     elif browser_name == "safari":
         options = SafariOption()
     else:
-        raise ValueError(f"Browser {browser_name} not supported ")
+        raise ValueError(f"Browser {browser_name} not supported")
 
     caps = {
         "browserName": browser_name,
