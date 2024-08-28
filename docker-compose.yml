@@ -46,8 +46,8 @@ services:
     networks:
       - test_net
     volumes:
-      - "/Users/sergeyfrolkin/.jenkins/workspace/homework/allure-results/:/allure-results/"  #правки
-      - "/Users/sergeyfrolkin/.jenkins/workspace/homework/tests/logs/:/tests/logs/"  #правки
+      - "/Users/sergeyfrolkin/.jenkins/workspace/final_project/allure-results/:/allure-results/"  #правки
+      - "/Users/sergeyfrolkin/.jenkins/workspace/final_project/tests/logs/:/tests/logs/"  #правки
 
 networks:
   test_net:
