@@ -52,6 +52,7 @@ def browser(request):
         base_url = f"https://adm.{stand}.wf.rt.ru/"
     else:
         raise ValueError(f"Panel {panel} not supported")
+
     executor_url = f"http://{ex_ip}:4444/wd/hub"
 
     logger = logging.getLogger(request.node.name)
