@@ -42,7 +42,7 @@ services:
       - selenoid-ui
       - chrome123
       - chrome124
-    command: ./wait-for-it.sh https://client.${STAND}.wf.rt.ru/ -- pytest /tests -n ${N} --panel ${PANEL} --stand ${STAND} --ex_url ${EX_IP} --browser ${BROWSER} --bv ${BV} --component_id ${COMPONENT} --employee ${EMPLOYEE} --login_type ${LOGINTYPE} --vnc
+    command: pytest /tests -n ${N} --panel ${PANEL} --stand ${STAND} --ex_url ${EX_IP} --browser ${BROWSER} --bv ${BV} --component_id ${COMPONENT} --employee ${EMPLOYEE} --login_type ${LOGINTYPE} --vnc
     container_name: tests_container
     networks:
       - test_net
