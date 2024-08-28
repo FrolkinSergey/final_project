@@ -116,7 +116,10 @@ def test_co_create(base_esb_api_url, headers, client_id, nls, global_id, max_ap_
     json_response = response.json()
     assert response.status_code == 200
     assert json_response
+    data = json_response.get('responseData')
+    co_id = data.get('id')
     validate(instance=json_response, schema=esb_schema_data_object)
+    return co_id
 
 
 def test_co_update(base_esb_api_url, headers):
