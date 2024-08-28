@@ -18,7 +18,7 @@ def pytest_addoption(parser):
     parser.addoption("--logs", action="store_true")
     parser.addoption("--video", action="store_true")
     parser.addoption("--bv")
-    parser.addoption("--component_id", default=1000, choices=[1000, 2000, 3000, 4000, 141])
+    parser.addoption("--component_id", default=1000)
     parser.addoption("--employee", default="severus_snape@rt.ru")
     parser.addoption("--login_type", default="local", choices=["local", "sso"])
 
