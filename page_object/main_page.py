@@ -3,22 +3,40 @@ from page_object.base_page import BasePage
 
 
 class MainPage(BasePage):
-    CAROUSEL_BANNER = By.CSS_SELECTOR, "#carousel-banner-1"
-    FIRST_PRODUCT = By.XPATH, '//div[@id="content"]/div[2]/div[2]/div/div[2]/form/div/button'
-    PRICE_OF_ANY_PRODUCT_MAIN = By.CSS_SELECTOR, "span.price-new"
+    EQUIP_MENU = By.XPATH, '//*[@href="#icon-nav-ap"]'
+    AP_SUBMENU = By.XPATH, '//*[text()="Точки доступа"]'
+    POOL_MENU = By.XPATH, '//*[@href="/promo/poll/"]'
+    ACC_LIST_MENU = By.XPATH, '//*[@href="/network/access-list/"]'
 
-    def get_carousel(self):
-        """Получение карусели Featured"""
+    def go_back(self):
+        self.back_page()
+
+    def get_url(self):
+        """Получение url"""
+        self.logger.debug("Get url")
+        url = self.browser.current_url
+        return url
+
+    def get_path(self, url):
+        """Получение PATH"""
+        self.logger.info("Get poll path")
+        full_url = self.browser.current_url
+        path_row = str(full_url.replace(url, "/"))
+        path = path_row[:(-1)]
+        return path
+
+    def open_access_points_page(self):
+        """Открытие главной страницы Точки доступа"""
         self.logger.debug("Get carousel")
-        return self.get_element(self.CAROUSEL_BANNER)
+        self.click(self.EQUIP_MENU)
+        self.click(self.AP_SUBMENU)
 
-    def add_to_cart_first_product_of_featured(self):
-        """Добавление в корзину первого товара из Featured"""
-        self.logger.info("Add to Cart product in Featured")
-        self.click(self.FIRST_PRODUCT)
+    def open_poll_page(self):
+        """Открытие главной страницы Опросы"""
+        self.logger.debug("Get carousel")
+        self.click(self.POOL_MENU)
 
-    def get_price_of_any_product_main(self):
-        """Получение стоимости одного из продуктов на главной странице"""
-        self.logger.info("Get price of product")
-        return self.get_element(self.PRICE_OF_ANY_PRODUCT_MAIN)
-
+    def open_access_list_page(self):
+        """Открытие главной страницы Доступ по списку"""
+        self.logger.debug("Get carousel")
+        self.click(self.ACC_LIST_MENU)

@@ -3,23 +3,41 @@ from page_object.base_page import BasePage
 
 
 class LoginPage(BasePage):
-    LOGIN_PATH = "/identity/user/login/"
-    EMAIL_FIELD = By.XPATH, '//a[@id="customerlogin-email"]'
-    PASSWORD_FIELD = By.XPATH, '//*[@id="customerlogin-password"]'
-    ENTER_BUTTON = By.XPATH, '//*[@class="btn btn-primary"]'
+    PATH = "identity/user/login/"
+    EMAIL_FIELD = By.CSS_SELECTOR, "#customerlogin-email"
+    PASSWORD_FIELD = By.CSS_SELECTOR, "#customerlogin-password"
+    ENTER_BUTTON = By.XPATH, '//*[@name="login-button"]'
     REMEMBER = By.XPATH, '//*[@id="customerlogin-remember"]'
     RECOVER = By.XPATH, '//*[@class="btn btn-primary-ghost"]'
+    SSO_USERNAME_FIELD = By.CSS_SELECTOR, "#username"
+    SSO_PASSWORD_FIELD = By.CSS_SELECTOR, "#password"
+    SSO_ENTER_BUTTON = By.CSS_SELECTOR, "#kc-login"
+    SSO_REMEMBER = By.XPATH, '//*[@class="rt-checkbox__label"]'
+    SSO_RECOVER = By.CSS_SELECTOR, "#forgot_password"
+    SSO_SKIP_CHECK_PHONE = By.CSS_SELECTOR, "#update-profile-skip"
 
-    def open(self):
-        """Открытие страницы"""
-        self.logger.info("Open login page")
-        url = self.browser.current_url
-        self.browser.get(url + self.LOGIN_PATH)
-
-    def login(self, username, password):
-        """Авторизация в ЛК/ПА"""
+    def local_login(self, stand, username, password):
+        """Авторизация в ЛК локально"""
         self.logger.info("Log In process")
-        self.input_value(self.EMAIL_FIELD, username)
-        self.input_value(self.PASSWORD_FIELD, password)
-        self.click(self.ENTER_BUTTON)
+        stands = ['test', 'pre']
+        if stand in stands:
+            LOCAL_URL = f"https://client.{stand}.wf.rt.ru/identity/user/login/"
+            self.browser.get(LOCAL_URL)
+            self.input_value(self.EMAIL_FIELD, username)
+            self.input_value(self.PASSWORD_FIELD, password)
+            self.click(self.ENTER_BUTTON)
+            return self
+        else:
+            self.input_value(self.EMAIL_FIELD, username)
+            self.input_value(self.PASSWORD_FIELD, password)
+            self.click(self.ENTER_BUTTON)
+            return self
+
+    def sso_login(self, username, password):
+        """Авторизация в ЛК через SSO"""
+        self.logger.info("Log In SSO")
+        self.input_value(self.SSO_USERNAME_FIELD, username)
+        self.input_value(self.SSO_PASSWORD_FIELD, password)
+        self.click(self.SSO_ENTER_BUTTON)
+        self.click(self.SSO_SKIP_CHECK_PHONE)
         return self
