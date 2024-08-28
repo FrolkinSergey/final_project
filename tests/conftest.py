@@ -9,6 +9,7 @@ from selenium.webdriver.safari.options import Options as SafariOption
 
 def pytest_addoption(parser):
     parser.addoption("--browser", default="chrome", choices=["chrome", "firefox", "safari"])
+    parser.addoption("--remote", default="false", choices=["false", "true"])
     parser.addoption("--panel", default="client", choices=["client", "adm"])
     parser.addoption("--stand", default=f"dev", choices=["dev", "test", "pre"])
     parser.addoption("--ex_ip", default=f"192.168.0.100")
@@ -17,6 +18,9 @@ def pytest_addoption(parser):
     parser.addoption("--logs", action="store_true")
     parser.addoption("--video", action="store_true")
     parser.addoption("--bv")
+    parser.addoption("--component_id", default=1000, choices=[1000, 2000, 3000, 4000, 141])
+    parser.addoption("--employee", default="severus_snape@rt.ru")
+    parser.addoption("--login_type", default="local", choices=["local", "sso"])
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
@@ -33,6 +37,7 @@ def pytest_runtest_makereport(item):
 def browser(request):
     browser_name = request.config.getoption("--browser")
     log_level = request.config.getoption("--log_level")
+    remote = request.config.getoption("--remote")
     panel = request.config.getoption("--panel")
     stand = request.config.getoption("--stand")
     ex_ip = request.config.getoption("--ex_ip")
@@ -47,11 +52,10 @@ def browser(request):
         base_url = f"https://adm.{stand}.wf.rt.ru/"
     else:
         raise ValueError(f"Panel {panel} not supported")
-
     executor_url = f"http://{ex_ip}:4444/wd/hub"
 
     logger = logging.getLogger(request.node.name)
-    ch = logging.FileHandler(filename=f"tests/logs/{request.node.name}.log")
+    ch = logging.FileHandler(filename=f"logs/{request.node.name}.log")
     ch.setFormatter(logging.Formatter('%(levelname)s %(message)s'))
     logger.setLevel(level=log_level)
     logger.addHandler(ch)
@@ -64,6 +68,21 @@ def browser(request):
         options = SafariOption()
     else:
         raise ValueError(f"Browser {browser_name} not supported")
+
+    if remote == "false":
+        if browser_name == "chrome":
+            driver = webdriver.Chrome(options=options)
+        elif browser_name == "safari":
+            driver = webdriver.Safari()
+        else:
+            raise ValueError(f"Browser {browser_name} for local run not supported")
+    elif remote == "true":
+        driver = webdriver.Remote(
+            command_executor=executor_url,
+            options=options
+        )
+    else:
+        pass
 
     caps = {
         "browserName": browser_name,
@@ -81,11 +100,6 @@ def browser(request):
 
     for k, v in caps.items():
         options.set_capability(k, v)
-
-    driver = webdriver.Remote(
-        command_executor=executor_url,
-        options=options
-    )
 
     driver.maximize_window()
 
@@ -108,3 +122,39 @@ def browser(request):
         )
 
     driver.quit()
+
+
+@pytest.fixture
+def stand(request):
+    stand = request.config.getoption("--stand")
+    return stand
+
+
+@pytest.fixture
+def base_portal_api_url(request):
+    stand = request.config.getoption("--stand")
+    base_api_url = f"http://api.{stand}.wf.rt.ru/v1"
+    return base_api_url
+
+
+@pytest.fixture
+def login_type(request):
+    return request.config.getoption("--login_type")
+
+
+@pytest.fixture
+def base_esb_api_url(request):
+    stand = request.config.getoption("--stand")
+    if stand == 'dev':
+        base_esb_api_url = "http://10.32.154.235:9900"
+    elif stand == 'test':
+        base_esb_api_url = "http://10.32.154.235:9900"
+    return base_esb_api_url
+
+
+@pytest.fixture
+def headers(request):
+    component_id = request.config.getoption("--component_id")
+    employee = request.config.getoption("--employee")
+    headers = {"Content-Type": "application/json", "X-CallerID": f"{component_id}", "X-employee": f"{employee}"}
+    return headers

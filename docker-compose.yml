@@ -41,13 +41,13 @@ services:
       - opencart
       - selenoid
       - selenoid-ui
-    command: ./wait-for-it.sh ${EX_IP} 8081 -- pytest /tests -url ${URL} -ex_url ${EX_IP} -n ${N} --browser ${BROWSER} --bv ${BV} --vnc
+    command: ./wait-for-it.sh ${EX_IP} 8081 -- pytest /tests -n ${N} --panel ${PANEL} --stand ${STAND} --ex_url ${EX_IP} --browser ${BROWSER} --bv ${BV} --component_id ${COMPONENT} --employee ${EMPLOYEE} --login_type ${LOGINTYPE} --vnc
     container_name: tests_container
     networks:
       - test_net
     volumes:
-      - "/Users/sergeyfrolkin/.jenkins/workspace/homework/allure-results/:/allure-results/"
-      - "/Users/sergeyfrolkin/.jenkins/workspace/homework/tests/logs/:/tests/logs/"
+      - "/Users/sergeyfrolkin/.jenkins/workspace/homework/allure-results/:/allure-results/"  #правки
+      - "/Users/sergeyfrolkin/.jenkins/workspace/homework/tests/logs/:/tests/logs/"  #правки
 
 networks:
   test_net:
