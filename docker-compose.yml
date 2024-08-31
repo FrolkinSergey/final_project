@@ -19,7 +19,7 @@ services:
     links:
       - selenoid
     ports:
-      - "8085:8085"
+      - "8090:8080"
     command: [ "--selenoid-uri", "http://${LOCAL_IP}:4444" ]
 
   chrome:
