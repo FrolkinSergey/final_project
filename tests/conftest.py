@@ -131,11 +131,11 @@ def stand(request):
     return stand
 
 
-@pytest.fixture
-def base_portal_api_url(request):
-    stand = request.config.getoption("--stand")
-    base_api_url = f"http://api.{stand}.wf.rt.ru/v1"
-    return base_api_url
+# @pytest.fixture
+# def base_portal_api_url(request):
+#     stand = request.config.getoption("--stand")
+#     base_api_url = f"http://api.{stand}.wf.rt.ru/v1"
+#     return base_api_url
 
 
 @pytest.fixture
@@ -149,6 +149,8 @@ def base_esb_api_url(request):
     if stand == 'dev':
         base_esb_api_url = "http://10.32.154.235:9900"
     elif stand == 'test':
+        base_esb_api_url = "http://10.32.154.235:9900"
+    elif stand == 'pre':
         base_esb_api_url = "http://10.32.154.235:9900"
     return base_esb_api_url
 
