@@ -12,7 +12,7 @@ def pytest_addoption(parser):
     parser.addoption("--remote", default="true", choices=["false", "true"])
     parser.addoption("--panel", default="client", choices=["client", "adm"])
     parser.addoption("--stand", default="dev", choices=["dev", "test", "pre"])
-    parser.addoption("--ex_ip", default=f"192.168.0.101")
+    parser.addoption("--local_ip", default=f"192.168.0.101")
     parser.addoption("--log_level", action="store", default="INFO")
     parser.addoption("--vnc", action="store_true")
     parser.addoption("--logs", action="store_true")
@@ -40,7 +40,7 @@ def browser(request):
     remote = request.config.getoption("--remote")
     panel = request.config.getoption("--panel")
     stand = request.config.getoption("--stand")
-    # ex_ip = request.config.getoption("--ex_ip")
+    local_ip = request.config.getoption("--local_ip")
     vnc = request.config.getoption("--vnc")
     version = request.config.getoption("--bv")
     logs = request.config.getoption("--logs")
@@ -53,7 +53,7 @@ def browser(request):
     else:
         raise ValueError(f"Panel {panel} not supported")
 
-    executor_url = f"http://selenoid:4444/wd/hub" #{ex_ip}
+    executor_url = f"http://{local_ip}:4444/wd/hub"
 
     logger = logging.getLogger(request.node.name)
     ch = logging.FileHandler(filename=f"tests/logs/{request.node.name}.log")
