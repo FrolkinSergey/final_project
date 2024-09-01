@@ -166,7 +166,5 @@ cython_debug/
 .run
 !/requirements.txt
 !/tests/logs/
+!/etc/
 !/.env
-!/tests/test_api_portal.py
-!/api_clients/portal_client.py
-!/api_clients/portal_schemas.py

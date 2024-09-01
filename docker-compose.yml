@@ -33,13 +33,8 @@ services:
       dockerfile: tests/Dockerfile
     depends_on:
       - selenoid-ui
-    command: pytest /tests -n ${N} --panel ${PANEL} --stand ${STAND} --local_ip ${LOCAL_IP} --browser ${BROWSER} --bv "${BV}.0" --component_id ${COMPONENT} --employee ${EMPLOYEE} --login_type ${LOGINTYPE} --vnc
+    command: pytest /tests -n ${N} --panel ${PANEL} --stand ${STAND} --url ${LOCAL_IP} --browser ${BROWSER} --bv "${BV}.0" --component_id ${COMPONENT} --employee ${EMPLOYEE} --login_type ${LOGINTYPE} --vnc
     container_name: tests_container
-    networks:
-      - test_net
     volumes:
       - "/Users/sergeyfrolkin/.jenkins/workspace/finalproject/allure-results/:/allure-results/"
       - "/Users/sergeyfrolkin/.jenkins/workspace/finalproject/tests/logs/:/tests/logs/"
-
-networks:
-  test_net:
