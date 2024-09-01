@@ -54,7 +54,7 @@ def browser(request, base_url):
     executor_url = f"http://{url}:4444/wd/hub"
 
     logger = logging.getLogger(request.node.name)
-    ch = logging.FileHandler(filename=f"logs/{request.node.name}.log")
+    ch = logging.FileHandler(filename=f"tests/logs/{request.node.name}.log")
     ch.setFormatter(logging.Formatter('%(levelname)s %(message)s'))
     logger.setLevel(level=log_level)
     logger.addHandler(ch)
