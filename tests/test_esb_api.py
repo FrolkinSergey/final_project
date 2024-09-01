@@ -101,7 +101,7 @@ def test_co_get(base_esb_api_url, headers, idf_value, lvl, status_code, schema):
                          [("146055", "850000204225", "20242898", 10, 7)])
 def test_co_create(base_esb_api_url, headers, client_id, nls, global_id, max_ap_count, service):
     name_row = esb_client.name_date()
-    name = "co/create" + name_row
+    name = "co/create " + name_row
     data = {
         "client_id": client_id,
         "name": name,
@@ -125,7 +125,7 @@ def test_co_create(base_esb_api_url, headers, client_id, nls, global_id, max_ap_
 def test_co_update(base_esb_api_url, headers):
     co_id = 3483
     name_row = esb_client.name_date()
-    name = "co/update" + name_row
+    name = "co/update " + name_row
     contacts = "contacts" + name_row
     count_list = [5, 10, 50, 100]
     mapc = random.choice(count_list)

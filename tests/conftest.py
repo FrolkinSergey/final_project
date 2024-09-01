@@ -36,12 +36,7 @@ def pytest_runtest_makereport(item):
 def base_url(request):
     panel = request.config.getoption("--panel")
     stand = request.config.getoption("--stand")
-    if panel == "client":
-        base_url = f"https://client.{stand}.wf.rt.ru/"
-    elif panel == "adm":
-        base_url = f"https://adm.{stand}.wf.rt.ru/"
-    else:
-        raise ValueError(f"Panel {panel} not supported")
+    base_url = f"https://{panel}.{stand}.wf.rt.ru/"
     return base_url
 
 
@@ -50,20 +45,11 @@ def browser(request, base_url):
     browser_name = request.config.getoption("--browser")
     log_level = request.config.getoption("--log_level")
     remote = request.config.getoption("--remote")
-    # panel = request.config.getoption("--panel")
-    # stand = request.config.getoption("--stand")
     url = request.config.getoption("--url")
     vnc = request.config.getoption("--vnc")
     version = request.config.getoption("--bv")
     logs = request.config.getoption("--logs")
     video = request.config.getoption("--video")
-
-    # if panel == "client":
-    #     base_url = f"https://client.{stand}.wf.rt.ru/"
-    # elif panel == "adm":
-    #     base_url = f"https://adm.{stand}.wf.rt.ru/"
-    # else:
-    #     raise ValueError(f"Panel {panel} not supported")
 
     executor_url = f"http://{url}:4444/wd/hub"
 
