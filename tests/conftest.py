@@ -12,7 +12,7 @@ def pytest_addoption(parser):
     parser.addoption("--remote", default="true", choices=["false", "true"])
     parser.addoption("--panel", default="client", choices=["client", "adm"])
     parser.addoption("--stand", default="dev", choices=["dev", "test", "pre"])
-    parser.addoption("--local_ip", default=f"192.168.0.101")
+    parser.addoption("--url", default=f"192.168.0.105")
     parser.addoption("--log_level", action="store", default="INFO")
     parser.addoption("--vnc", action="store_true")
     parser.addoption("--logs", action="store_true")
@@ -40,7 +40,7 @@ def browser(request):
     remote = request.config.getoption("--remote")
     panel = request.config.getoption("--panel")
     stand = request.config.getoption("--stand")
-    local_ip = request.config.getoption("--local_ip")
+    url = request.config.getoption("--local_ip")
     vnc = request.config.getoption("--vnc")
     version = request.config.getoption("--bv")
     logs = request.config.getoption("--logs")
@@ -53,7 +53,7 @@ def browser(request):
     else:
         raise ValueError(f"Panel {panel} not supported")
 
-    executor_url = f"http://{local_ip}:4444/wd/hub"
+    executor_url = f"http://{url}:4444/wd/hub"
 
     logger = logging.getLogger(request.node.name)
     ch = logging.FileHandler(filename=f"tests/logs/{request.node.name}.log")
@@ -76,14 +76,12 @@ def browser(request):
         elif browser_name == "safari":
             driver = webdriver.Safari()
         else:
-            raise ValueError(f"Browser {browser_name} for local run not supported")
+            raise ValueError(f"Browser {browser_name} not supported local run")
     elif remote == "true":
         driver = webdriver.Remote(
             command_executor=executor_url,
             options=options
         )
-    else:
-        pass
 
     caps = {
         "browserName": browser_name,
@@ -131,13 +129,6 @@ def stand(request):
     return stand
 
 
-# @pytest.fixture
-# def base_portal_api_url(request):
-#     stand = request.config.getoption("--stand")
-#     base_api_url = f"http://api.{stand}.wf.rt.ru/v1"
-#     return base_api_url
-
-
 @pytest.fixture
 def login_type(request):
     return request.config.getoption("--login_type")
@@ -148,11 +139,15 @@ def base_esb_api_url(request):
     stand = request.config.getoption("--stand")
     if stand == 'dev':
         base_esb_api_url = "http://10.32.154.235:9900"
+        return base_esb_api_url
     elif stand == 'test':
         base_esb_api_url = "http://10.32.154.235:9900"
+        return base_esb_api_url
     elif stand == 'pre':
         base_esb_api_url = "http://10.32.154.235:9900"
-    return base_esb_api_url
+        return base_esb_api_url
+    else:
+        pass
 
 
 @pytest.fixture
