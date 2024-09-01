@@ -20,7 +20,7 @@ services:
       - selenoid
     ports:
       - "8090:8080"
-    command: [ "--selenoid-uri", "http://localhost:4444" ]
+    command: [ "--selenoid-uri", "http://${LOCAL_IP}:4444" ]
 
   chrome:
     image: selenoid/chrome:${BV}.0
