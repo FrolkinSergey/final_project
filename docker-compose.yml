@@ -20,7 +20,7 @@ services:
       - selenoid
     ports:
       - "8090:8080"
-    command: [ "--selenoid-uri", "http://${LOCAL_IP}:4444" ]
+    command: [ "--selenoid-uri", "http://localhost:4444" ]
 
   chrome:
     image: selenoid/chrome:${BV}.0
@@ -35,6 +35,7 @@ services:
       - selenoid-ui
     links:
       - selenoid
+      - selenoid-ui
     command: pytest /tests -n ${N} --panel ${PANEL} --stand ${STAND} --url ${LOCAL_IP} --browser ${BROWSER} --bv "${BV}.0" --component_id ${COMPONENT} --employee ${EMPLOYEE} --login_type ${LOGINTYPE} --vnc
     container_name: tests_container
     volumes:
