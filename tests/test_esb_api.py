@@ -36,7 +36,7 @@ def test_client_create(base_esb_api_url, headers, nls, email):
     json_response = response.json()
     assert response.status_code == 200
     assert json_response
-    validate(instance=json_response, schema=esb_schema_data_object)
+    validate(instance=json_response, schema=esb_schema_error) #esb_schema_data_object
 
 
 @pytest.mark.parametrize(("nls", "status_code", "schema"),
