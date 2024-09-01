@@ -32,11 +32,12 @@ def pytest_runtest_makereport(item):
     else:
         item.status = 'passed'
 
+
 @pytest.fixture()
 def base_url(request):
-    # panel = request.config.getoption("--panel")
-    # stand = request.config.getoption("--stand")
-    base_url = "https://ya.ru/" #f"https://{panel}.{stand}.wf.rt.ru/"
+    panel = request.config.getoption("--panel")
+    stand = request.config.getoption("--stand")
+    base_url = f"https://{panel}.{stand}.wf.rt.ru/"
     return base_url
 
 
@@ -44,7 +45,7 @@ def base_url(request):
 def browser(request, base_url):
     browser_name = request.config.getoption("--browser")
     log_level = request.config.getoption("--log_level")
-    remote = request.config.getoption("--remote")
+    # remote = request.config.getoption("--remote")
     url = request.config.getoption("--url")
     vnc = request.config.getoption("--vnc")
     version = request.config.getoption("--bv")
@@ -68,18 +69,18 @@ def browser(request, base_url):
     else:
         raise ValueError(f"Browser {browser_name} not supported")
 
-    if remote == "false":
-        if browser_name == "chrome":
-            driver = webdriver.Chrome(options=options)
-        elif browser_name == "safari":
-            driver = webdriver.Safari()
-        else:
-            raise ValueError(f"Browser {browser_name} not supported local run")
-    elif remote == "true":
-        driver = webdriver.Remote(
-            command_executor=executor_url,
-            options=options
-        )
+    # if remote == "false":
+    #     if browser_name == "chrome":
+    #         driver = webdriver.Chrome(options=options)
+    #     elif browser_name == "safari":
+    #         driver = webdriver.Safari()
+    #     else:
+    #         raise ValueError(f"Browser {browser_name} not supported local run")
+    # elif remote == "true":
+    driver = webdriver.Remote(
+        command_executor=executor_url,
+        options=options
+    )
 
     caps = {
         "browserName": browser_name,
