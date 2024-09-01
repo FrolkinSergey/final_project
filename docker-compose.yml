@@ -4,7 +4,7 @@ services:
 
   selenoid:
     image: "aerokube/selenoid"
-    network_mode: host
+    network_mode: selenoid
     ports:
       - "4444:4444"
     volumes:
@@ -13,7 +13,7 @@ services:
 
   selenoid-ui:
     image: "aerokube/selenoid-ui"
-    network_mode: host
+    network_mode: selenoid
     depends_on:
       - selenoid
     links:
