@@ -168,3 +168,4 @@ cython_debug/
 !/tests/logs/
 !/etc/
 !/.env
+!/etc/selenoid/

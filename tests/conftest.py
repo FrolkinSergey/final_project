@@ -40,7 +40,7 @@ def browser(request):
     remote = request.config.getoption("--remote")
     panel = request.config.getoption("--panel")
     stand = request.config.getoption("--stand")
-    url = request.config.getoption("--local_ip")
+    url = request.config.getoption("--url")
     vnc = request.config.getoption("--vnc")
     version = request.config.getoption("--bv")
     logs = request.config.getoption("--logs")
