@@ -16,8 +16,6 @@ services:
     network_mode: bridge
     depends_on:
       - selenoid
-    links:
-      - selenoid
     ports:
       - "8090:8080"
     command: [ "--selenoid-uri", "http://${LOCAL_IP}:4444" ]
@@ -25,13 +23,11 @@ services:
   chrome124:
     image: selenoid/chrome:124.0
     depends_on:
-      - selenoid
       - selenoid-ui
 
   chrome123:
     image: selenoid/chrome:123.0
     depends_on:
-      - selenoid
       - selenoid-ui
 
   tests:
@@ -39,8 +35,6 @@ services:
     build:
       dockerfile: tests/Dockerfile
     depends_on:
-      - selenoid-ui
-    links:
       - selenoid
     command: pytest /tests -n ${N} --panel ${PANEL} --stand ${STAND} --url ${LOCAL_IP} --browser ${BROWSER} --bv "${BV}.0" --component_id ${COMPONENT} --employee ${EMPLOYEE} --login_type ${LOGINTYPE} --vnc
     container_name: tests_container

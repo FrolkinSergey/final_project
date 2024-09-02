@@ -35,9 +35,9 @@ def pytest_runtest_makereport(item):
 
 @pytest.fixture()
 def base_url(request):
-    panel = request.config.getoption("--panel")
-    stand = request.config.getoption("--stand")
-    base_url = f"https://{panel}.{stand}.wf.rt.ru/"
+    # panel = request.config.getoption("--panel")
+    # stand = request.config.getoption("--stand")
+    base_url = "http://ya.ru" #f"https://{panel}.{stand}.wf.rt.ru/"
     return base_url
 
 
