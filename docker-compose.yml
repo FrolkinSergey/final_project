@@ -8,13 +8,15 @@ services:
     ports:
       - "4444:4444"
     volumes:
-      - "/Users/sergeyfrolkin/.jenkins/workspace/finalproject/:/etc/selenoid/" # assumed current dir contains browsers.json
+      - "./etc/selenoid/:/etc/selenoid/" # assumed current dir contains browsers.json
       - "/var/run/docker.sock:/var/run/docker.sock"
 
   selenoid-ui:
     image: "aerokube/selenoid-ui"
     network_mode: bridge
     depends_on:
+      - selenoid
+    links:
       - selenoid
     ports:
       - "8090:8080"
@@ -23,21 +25,21 @@ services:
   chrome124:
     image: selenoid/chrome:124.0
     depends_on:
-      - selenoid-ui
+      - selenoid
 
-  chrome123:
-    image: selenoid/chrome:123.0
-    depends_on:
-      - selenoid-ui
+#  chrome123:
+#    image: selenoid/chrome:123.0
+#    depends_on:
+#      - selenoid-ui
 
   tests:
     image: tests_container:v1
     build:
       dockerfile: tests/Dockerfile
     depends_on:
-      - selenoid
+      - selenoid-ui
     command: pytest /tests -n ${N} --panel ${PANEL} --stand ${STAND} --url ${LOCAL_IP} --browser ${BROWSER} --bv "${BV}.0" --component_id ${COMPONENT} --employee ${EMPLOYEE} --login_type ${LOGINTYPE} --vnc
     container_name: tests_container
     volumes:
-      - "/Users/sergeyfrolkin/.jenkins/workspace/finalproject/allure-results/:/allure-results/"
-      - "/Users/sergeyfrolkin/.jenkins/workspace/finalproject/tests/logs/:/tests/logs/"
+      - "./allure-results/:/allure-results/"
+      - "./tests/logs/:/tests/logs/"
