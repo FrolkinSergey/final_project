@@ -46,13 +46,13 @@ def browser(request, base_url):
     browser_name = request.config.getoption("--browser")
     log_level = request.config.getoption("--log_level")
     # remote = request.config.getoption("--remote")
-    url = request.config.getoption("--url")
+    # url = request.config.getoption("--url")
     vnc = request.config.getoption("--vnc")
     version = request.config.getoption("--bv")
     logs = request.config.getoption("--logs")
     video = request.config.getoption("--video")
 
-    executor_url = f"http://{url}:4444/wd/hub"
+    executor_url = f"http://localhost:4444/wd/hub"
 
     logger = logging.getLogger(request.node.name)
     ch = logging.FileHandler(filename=f"tests/logs/{request.node.name}.log")
