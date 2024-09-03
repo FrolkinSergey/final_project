@@ -33,6 +33,7 @@ services:
 
   tests:
     image: tests_container:v1
+    privileged: true
     build:
       dockerfile: tests/Dockerfile
     depends_on:
