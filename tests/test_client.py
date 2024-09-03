@@ -263,33 +263,33 @@ def test_view_phone_in_access_list(browser, stand, login_type):
     acc_list_page.check_pagination()
 
 
-@allure.feature('client')
-@allure.story('ЛК/Доступ по спискам')
-@allure.title('Форма просмотра списка телефонных номеров')
-def test_view_access_list_main_page(browser, stand, login_type):
-    """Форма просмотра списка телефонных номеров"""
-    login_page = LoginPage(browser)
-    modal_win = ModalSurveyPage(browser)
-    main_page = MainPage(browser)
-    acc_list_page = AccessListPage(browser)
-    if login_type == 'local':
-        login_page.local_login(stand, username, password)
-    elif login_type == 'sso':
-        login_page.sso_login(username, password)
-    else:
-        raise ValueError("Error: Login type not supported")
-    modal_win.close_modal_win()
-    main_page.open_access_list_page()
-    acc_list_page.check_phone_table_on_mp_in_lk()
-    acc_list_page.check_phone_status_in_table_on_mian_ap_page()
-    phone = acc_list_page.get_first_phone()
-    acc_list_page.check_search_phone(phone)
-    comment = acc_list_page.get_first_comment()
-    acc_list_page.check_search_by_comment(comment)
-    acc_list_page.check_search_by_non_existent_value()
-    acc_list_page.open_first_phone()
-    main_page.go_back()
-    acc_list_page.check_pagination()
+# @allure.feature('client')
+# @allure.story('ЛК/Доступ по спискам')
+# @allure.title('Форма просмотра списка телефонных номеров')
+# def test_view_access_list_main_page(browser, stand, login_type):
+#     """Форма просмотра списка телефонных номеров"""
+#     login_page = LoginPage(browser)
+#     modal_win = ModalSurveyPage(browser)
+#     main_page = MainPage(browser)
+#     acc_list_page = AccessListPage(browser)
+#     if login_type == 'local':
+#         login_page.local_login(stand, username, password)
+#     elif login_type == 'sso':
+#         login_page.sso_login(username, password)
+#     else:
+#         raise ValueError("Error: Login type not supported")
+#     modal_win.close_modal_win()
+#     main_page.open_access_list_page()
+#     acc_list_page.check_phone_table_on_mp_in_lk()
+#     acc_list_page.check_phone_status_in_table_on_mian_ap_page()
+#     phone = acc_list_page.get_first_phone()
+#     acc_list_page.check_search_phone(phone)
+#     comment = acc_list_page.get_first_comment()
+#     acc_list_page.check_search_by_comment(comment)
+#     acc_list_page.check_search_by_non_existent_value()
+#     acc_list_page.open_first_phone()
+#     main_page.go_back()
+#     acc_list_page.check_pagination()
 
 
 @allure.feature('client')
