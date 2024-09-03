@@ -3,7 +3,7 @@ from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 from page_object.base_page import BasePage
 
-AD_user = "admin_test@rt.ru"
+AD_user = "admin_test@adm.ru"
 AD_password = "q1w2e3r4"
 
 

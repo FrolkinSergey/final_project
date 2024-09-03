@@ -10,8 +10,8 @@ from page_object.modal_survey_page import ModalSurveyPage
 from page_object.poll_page import PollPage
 from page_object.profile_page import ProfilePage
 
-username = "jivaj53964@ustorp.com"  #dev
-username_uc = "JIVAJ53964@USTORP.COM"
+username = "test_account@test.com"
+username_uc = "TEST_ACCOUNT@TEST.COM"
 password = "q1w2e3r4"
 option_qual = 3
 
@@ -44,8 +44,7 @@ def test_login_local(browser, stand):
 @allure.title('Авторизация в ЛК через RT Passport')
 @pytest.mark.parametrize(("username", "password"),
                          [
-                             ('mowakef934@bitofee.com', 'Q1w2e3r4'),
-                             # ('vaseteg945@gam1fy.com', 'q1w2e3r4')
+                             ('pre_account@pre.com', 'Q1w2e3r4')
                          ])
 def test_login_sso(browser, stand, username, password):
     """Авторизация через SSO"""
@@ -263,7 +262,7 @@ def test_view_phone_in_access_list(browser, stand, login_type):
     acc_list_page.check_pagination()
 
 
-# @allure.feature('client')
+# @allure.feature('client')  #Не запускался из-за ошибки
 # @allure.story('ЛК/Доступ по спискам')
 # @allure.title('Форма просмотра списка телефонных номеров')
 # def test_view_access_list_main_page(browser, stand, login_type):
