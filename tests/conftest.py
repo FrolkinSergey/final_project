@@ -37,7 +37,7 @@ def pytest_runtest_makereport(item):
 def base_url(request):
     panel = request.config.getoption("--panel")
     stand = request.config.getoption("--stand")
-    base_url = f"https://{panel}.{stand}.wf.rt.ru/"
+    base_url = f"https://{panel}.{stand}.ru/"
     return base_url
 
 
@@ -137,13 +137,13 @@ def login_type(request):
 def base_esb_api_url(request):
     stand = request.config.getoption("--stand")
     if stand == 'dev':
-        base_esb_api_url = "http://10.32.154.235:9900"
+        base_esb_api_url = "http://ip:9999"
         return base_esb_api_url
     elif stand == 'test':
-        base_esb_api_url = "http://10.32.154.235:9900"
+        base_esb_api_url = "http://ip:9999"
         return base_esb_api_url
     elif stand == 'pre':
-        base_esb_api_url = "http://10.32.154.235:9900"
+        base_esb_api_url = "http://ip:9999"
         return base_esb_api_url
     else:
         pass

@@ -40,8 +40,8 @@ def test_client_create(base_esb_api_url, headers, nls, email):
 
 
 @pytest.mark.parametrize(("nls", "status_code", "schema"),
-                         [("850000204241", 200, esb_schema_data_object),
-                          ("850000204225", 200, esb_schema_data_object),
+                         [("123123123123", 200, esb_schema_data_object),
+                          ("321321321132", 200, esb_schema_data_object),
                           ("123456789000", 200, esb_schema_error_data_object)])
 def test_client_find(base_esb_api_url, headers, nls, status_code, schema):
     count_max = 10
@@ -57,7 +57,7 @@ def test_client_find(base_esb_api_url, headers, nls, status_code, schema):
 
 
 @pytest.mark.parametrize(("idf_type", "idf_value", "lvl", "status_code", "schema"),
-                         [(7, "7715422010", 1, 200, esb_schema_data_object),
+                         [(7, "7711234567", 1, 200, esb_schema_data_object),
                           (1, "146118", 2, 200, esb_schema_data_object),
                           (7, "146118", 2, 400, esb_schema_error)])
 def test_client_get(base_esb_api_url, headers, idf_type, idf_value, lvl, status_code, schema):
@@ -98,7 +98,7 @@ def test_co_get(base_esb_api_url, headers, idf_value, lvl, status_code, schema):
 
 
 @pytest.mark.parametrize(("client_id", "nls", "global_id", "max_ap_count", "service"),
-                         [("146055", "850000204225", "20242898", 10, 7)])
+                         [("146055", "123123123123", "12312312", 10, 7)])
 def test_co_create(base_esb_api_url, headers, client_id, nls, global_id, max_ap_count, service):
     name_row = esb_client.name_date()
     name = "co/create " + name_row
@@ -143,7 +143,7 @@ def test_co_update(base_esb_api_url, headers):
 
 
 def test_co_delete(base_esb_api_url, headers):
-    co_id = test_co_create(base_esb_api_url, headers, "146055", "850000204225", "20242898",
+    co_id = test_co_create(base_esb_api_url, headers, "146055", "123123123123", "12312312",
                            10, 7)
     data = {
         "id": co_id
@@ -156,7 +156,7 @@ def test_co_delete(base_esb_api_url, headers):
 
 
 def test_co_deactivate(base_esb_api_url, headers):
-    co_id = test_co_create(base_esb_api_url, headers, "146055", "850000204225", "20242898",
+    co_id = test_co_create(base_esb_api_url, headers, "146055", "123123123123", "12312312",
                            10, 7)
     data = {
         "id": co_id
@@ -200,7 +200,7 @@ def test_ap_get(base_esb_api_url, headers, ap_id, lvl, status_code, schema):
 
 
 def test_ap_create(base_esb_api_url, headers):
-    co_id = test_co_create(base_esb_api_url, headers, "146055", "850000204225", "20242898",
+    co_id = test_co_create(base_esb_api_url, headers, "146055", "123123123123", "123123123",
                            10, 4)
     mac = esb_client.random_mac_address()
     sn = mac.replace(":", "")
