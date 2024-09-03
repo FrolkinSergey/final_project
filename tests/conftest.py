@@ -9,7 +9,7 @@ from selenium.webdriver.safari.options import Options as SafariOption
 
 def pytest_addoption(parser):
     parser.addoption("--browser", default="chrome", choices=["chrome", "firefox", "safari"])
-    parser.addoption("--remote", default="false", choices=["false", "true"])
+    parser.addoption("--remote", default="true", choices=["false", "true"])
     parser.addoption("--panel", default="client", choices=["client", "adm"])
     parser.addoption("--stand", default="dev", choices=["dev", "test", "pre"])
     parser.addoption("--url", default=f"192.168.0.100")
