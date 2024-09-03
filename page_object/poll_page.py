@@ -20,7 +20,7 @@ class PollPage(BasePage):
     POLL_IMP_MANAGE = By.XPATH, "//*[contains(text(),'Управление показами')]"
     POLL_END_BY_DATE = By.CSS_SELECTOR, "#check-end-date"
     POLL_CANELDAR = By.XPATH, '//*[@class="custom-input-action custom-input-default-icon"]'
-    POLL_CURRENTDATE = By.XPATH, f'//*[@data-d="{str(datetime.now().strftime("%d"))}"]'
+    POLL_CURRENTDATE = By.XPATH, f'//*[@data-d="{str(datetime.now().day)}"]'
     POLL_END_BY_VOTES = By.CSS_SELECTOR, "#check-end-votes"
     POLL_ENDDATE_FIELD = By.XPATH, "//*[contains(text(),' Дата окончания ')]"
     POLL_ENDVOTES_FIELD = By.XPATH, '//*[@type="number"]'
@@ -110,9 +110,10 @@ class PollPage(BasePage):
         callendars = self.get_elements(self.POLL_CANELDAR)
         ebd_calendar = callendars[1]
         ebd_calendar.click()
-        cur_date_in_ebd_calendar = self.get_elements(self.POLL_CURRENTDATE)
-        cur_date = cur_date_in_ebd_calendar[1]
-        cur_date.click()
+        return self.POLL_CURRENTDATE
+        # cur_date_in_ebd_calendar = self.get_elements(self.POLL_CURRENTDATE)
+        # cur_date = cur_date_in_ebd_calendar[1]
+        # cur_date.click()
 
     def poll_imp_manage_by_votes(self):
         """Заполнение вклдаки Управление опросами завершение по количеству ответов"""

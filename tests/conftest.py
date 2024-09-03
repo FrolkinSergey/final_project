@@ -9,7 +9,7 @@ from selenium.webdriver.safari.options import Options as SafariOption
 
 def pytest_addoption(parser):
     parser.addoption("--browser", default="chrome", choices=["chrome", "firefox", "safari"])
-    parser.addoption("--remote", default="true", choices=["false", "true"])
+    parser.addoption("--remote", default="false", choices=["false", "true"])
     parser.addoption("--panel", default="client", choices=["client", "adm"])
     parser.addoption("--stand", default="dev", choices=["dev", "test", "pre"])
     parser.addoption("--url", default=f"192.168.0.100")
@@ -45,7 +45,7 @@ def base_url(request):
 def browser(request, base_url):
     browser_name = request.config.getoption("--browser")
     log_level = request.config.getoption("--log_level")
-    # remote = request.config.getoption("--remote")
+    remote = request.config.getoption("--remote")
     url = request.config.getoption("--url")
     vnc = request.config.getoption("--vnc")
     version = request.config.getoption("--bv")
@@ -55,7 +55,7 @@ def browser(request, base_url):
     executor_url = f"http://{url}:4444/wd/hub"
 
     logger = logging.getLogger(request.node.name)
-    ch = logging.FileHandler(filename=f"tests/logs/{request.node.name}.log")
+    ch = logging.FileHandler(filename=f"logs/{request.node.name}.log")
     ch.setFormatter(logging.Formatter('%(levelname)s %(message)s'))
     logger.setLevel(level=log_level)
     logger.addHandler(ch)
@@ -86,18 +86,18 @@ def browser(request, base_url):
     for k, v in caps.items():
         options.set_capability(k, v)
 
-    # if remote == "false":
-    #     if browser_name == "chrome":
-    #         driver = webdriver.Chrome(options=options)
-    #     elif browser_name == "safari":
-    #         driver = webdriver.Safari()
-    #     else:
-    #         raise ValueError(f"Browser {browser_name} not supported local run")
-    # elif remote == "true":
-    driver = webdriver.Remote(
-        command_executor=executor_url,
-        options=options
-    )
+    if remote == "false":
+        if browser_name == "chrome":
+            driver = webdriver.Chrome(options=options)
+        elif browser_name == "safari":
+            driver = webdriver.Safari()
+        else:
+            raise ValueError(f"Browser {browser_name} not supported local run")
+    elif remote == "true":
+        driver = webdriver.Remote(
+            command_executor=executor_url,
+            options=options
+        )
 
     driver.maximize_window()
 

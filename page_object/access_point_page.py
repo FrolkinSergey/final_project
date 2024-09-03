@@ -128,14 +128,23 @@ class ApPage(BasePage):
         elements = 0
         for index, value in enumerate(client_ap_service):
             service = client_ap_service[index]
-            service_valid = service + "\n"
-            PIC_SERVICE_ON_AP_PAGE = By.XPATH, f'//*[@title="{service_valid}"]'
-            try:
-                elements_row = self.get_elements(PIC_SERVICE_ON_AP_PAGE)
-                elements = len(elements_row)
-                break
-            except TimeoutException:
-                pass
+            if service == 'Light Wi-Fi\nОшибка при отправке конфигурации':
+                PIC_SERVICE_ON_AP_PAGE = By.XPATH, f'//*[@title="{service}"]'
+                try:
+                    elements_row = self.get_elements(PIC_SERVICE_ON_AP_PAGE)
+                    elements = len(elements_row)
+                    break
+                except TimeoutException:
+                    pass
+            else:
+                service_valid = service + "\n"
+                PIC_SERVICE_ON_AP_PAGE = By.XPATH, f'//*[@title="{service_valid}"]'
+                try:
+                    elements_row = self.get_elements(PIC_SERVICE_ON_AP_PAGE)
+                    elements = len(elements_row)
+                    break
+                except TimeoutException:
+                    pass
         if elements > 0:
             pass
         else:

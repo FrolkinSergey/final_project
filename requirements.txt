@@ -49,3 +49,4 @@ urllib3==2.2.1
 wsproto==1.2.0
 zipp==3.18.1
 keyboard==0.13.5
+PyAutoGUI~=0.9.54
