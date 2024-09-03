@@ -1,5 +1,7 @@
 import random
 import string
+import time
+import keyboard
 import pyautogui
 from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
@@ -249,8 +251,8 @@ class AccessListPage(BasePage):
         self.logger.debug("Check search phone")
         phone_row = phone[2:].replace("(", "").replace(")", "").replace("-", "")
         self.input_value(self.SEARCH_FIELD, phone_row)
-        pyautogui.press('enter')
-        pyautogui.sleep(0.3)
+        keyboard.press('enter')
+        time.sleep(0.3)
         SEARCH_PHONE_PATH = By.XPATH, f'//*[text()="{phone}"]'
         elements_1 = self.get_elements(SEARCH_PHONE_PATH)
         if len(elements_1) == 1:
@@ -258,8 +260,8 @@ class AccessListPage(BasePage):
         else:
             raise ValueError("Error: Phone not found")
         self.input_value(self.SEARCH_FIELD, phone)
-        pyautogui.press('enter')
-        pyautogui.sleep(0.3)
+        keyboard.press('enter')
+        time.sleep(0.3)
         elements_2 = self.get_elements(SEARCH_PHONE_PATH)
         if len(elements_2) == 1:
             self.click(self.SEARCH_FIELD_RESET)
@@ -272,8 +274,8 @@ class AccessListPage(BasePage):
         half_length = len(comment) // 2
         search_value = comment[:half_length]
         self.input_value(self.SEARCH_FIELD, search_value)
-        pyautogui.press('enter')
-        pyautogui.sleep(0.3)
+        keyboard.press('enter')
+        time.sleep(0.3)
         SEARCH_COMMENT_PATH = By.XPATH, f'//*[text()="{comment}"]'
         elements_1 = self.get_elements(SEARCH_COMMENT_PATH)
         if len(elements_1) >= 1:
@@ -287,8 +289,8 @@ class AccessListPage(BasePage):
         characters = string.ascii_letters + string.digits + string.punctuation
         search_value = ''.join(random.choice(characters) for i in range(20))
         self.input_value(self.SEARCH_FIELD, search_value)
-        pyautogui.press('enter')
-        pyautogui.sleep(0.3)
+        keyboard.press('enter')
+        time.sleep(0.3)
         elements = self.get_elements(self.SEARCH_TITLE)
         if len(elements) == 1:
             self.click(self.SEARCH_FIELD_RESET)
