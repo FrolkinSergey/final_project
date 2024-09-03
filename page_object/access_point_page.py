@@ -125,7 +125,6 @@ class ApPage(BasePage):
                              'Классический Wi-Fi, оборудование РТК',
                              'Офисная сеть'
                              ]
-        elements = 0
         for index, value in enumerate(client_ap_service):
             service = client_ap_service[index]
             if service == 'Light Wi-Fi\nОшибка при отправке конфигурации':
@@ -133,7 +132,8 @@ class ApPage(BasePage):
                 try:
                     elements_row = self.get_elements(PIC_SERVICE_ON_AP_PAGE)
                     elements = len(elements_row)
-                    break
+                    if elements > 0:
+                        break
                 except TimeoutException:
                     pass
             else:
@@ -142,13 +142,10 @@ class ApPage(BasePage):
                 try:
                     elements_row = self.get_elements(PIC_SERVICE_ON_AP_PAGE)
                     elements = len(elements_row)
-                    break
+                    if elements > 0:
+                        break
                 except TimeoutException:
                     pass
-        if elements > 0:
-            pass
-        else:
-            raise ValueError("Error: Service is not valid")
 
     def check_hs_type_in_table_on_ap_page(self):
         """Проверка значения типа сети и статуса на принадлежность спискам возможных значений"""
@@ -201,14 +198,13 @@ class ApPage(BasePage):
             if len(pagination) > 0:
                 page_after_1 = self.get_elements(self.PAGE_NUM_AFT_1)
                 num_of_page = len(page_after_1)
-                if num_of_page < 10:
-                    n = random.randint(2, num_of_page)
-                    PAGE_PATH = By.XPATH, f'//*[@href="/network/access-point/index/?page={n}"]'
+                if num_of_page == 1:
+                    PAGE_PATH = By.XPATH, f'//*[@href="/network/access-point/index/?page=2"]'
                     self.click(PAGE_PATH)
                     self.click(self.ICON_RIGHT)
                     self.click(self.ICON_LEFT)
                 else:
-                    n = random.randint(2, 10)
+                    n = random.randint(2, num_of_page + 1)
                     PAGE_PATH = By.XPATH, f'//*[@href="/network/access-point/index/?page={n}"]'
                     self.click(PAGE_PATH)
                     self.click(self.ICON_RIGHT)
