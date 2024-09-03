@@ -1,13 +1,13 @@
 {
   "chrome": {
-    "default": "124.0",
+    "default": "latest",
     "versions": {
       "124.0": {
         "image": "selenoid/chrome:124.0",
         "port": "4444",
         "path": "/",
         "tmpfs": {
-          "/tmp": "size=128m"
+          "/tmp": "size=256m"
         }
       },
       "123.0": {
@@ -15,7 +15,7 @@
         "port": "4444",
         "path": "/",
         "tmpfs": {
-          "/tmp": "size=128m"
+          "/tmp": "size=256m"
         }
       }
     }

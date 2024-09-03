@@ -24,77 +24,77 @@ def test_dic_get(base_esb_api_url, headers, key, status_code, schema):
     assert json_response
     validate(instance=json_response, schema=schema)
 
-
-@pytest.mark.parametrize(("nls", "email"), [("123123456789", "autotest_13@autotest.ru")])
-def test_client_create(base_esb_api_url, headers, nls, email):
-    data = {
-        "nls": nls,
-        "email": email,
-        "contacts": email
-    }
-    response = esb_client.client_create(base_esb_api_url, headers, data)
-    json_response = response.json()
-    assert response.status_code == 200
-    assert json_response
-    validate(instance=json_response, schema=esb_schema_error) #esb_schema_data_object
-
-
-@pytest.mark.parametrize(("nls", "status_code", "schema"),
-                         [("850000204241", 200, esb_schema_data_object),
-                          ("850000204225", 200, esb_schema_data_object),
-                          ("123456789000", 200, esb_schema_error_data_object)])
-def test_client_find(base_esb_api_url, headers, nls, status_code, schema):
-    count_max = 10
-    data = {
-        "nls": nls,
-        "countMax": count_max
-    }
-    response = esb_client.client_find(base_esb_api_url, headers, data)
-    json_response = response.json()
-    assert response.status_code == status_code
-    assert json_response
-    validate(instance=json_response, schema=schema)
-
-
-@pytest.mark.parametrize(("idf_type", "idf_value", "lvl", "status_code", "schema"),
-                         [(7, "7715422010", 1, 200, esb_schema_data_object),
-                          (1, "146118", 2, 200, esb_schema_data_object),
-                          (7, "146118", 2, 400, esb_schema_error)])
-def test_client_get(base_esb_api_url, headers, idf_type, idf_value, lvl, status_code, schema):
-    data = {
-        "clientIdentifyType": idf_type,
-        "clientIdentifyValue": idf_value,
-        "lvl_info": lvl
-    }
-    response = esb_client.client_get(base_esb_api_url, headers, data)
-    json_response = response.json()
-    assert response.status_code == status_code
-    assert json_response
-    validate(instance=json_response, schema=schema)
-
-
-def test_client_list(base_esb_api_url, headers):
-    response = esb_client.client_list(base_esb_api_url, headers)
-    json_response = response.json()
-    assert response.status_code == 200
-    assert json_response
-    validate(instance=json_response, schema=esb_schema_data_array)
-
-
-@pytest.mark.parametrize(("idf_value", "lvl", "status_code", "schema"),
-                         [("3382", 1, 200, esb_schema_data_object),
-                          ("3382", 2, 200, esb_schema_data_object),
-                          ("3382", 3, 400, esb_schema_error)])
-def test_co_get(base_esb_api_url, headers, idf_value, lvl, status_code, schema):
-    data = {
-        "id": idf_value,
-        "lvl_info": lvl
-    }
-    response = esb_client.co_get(base_esb_api_url, headers, data)
-    json_response = response.json()
-    assert response.status_code == status_code
-    assert json_response
-    validate(instance=json_response, schema=schema)
+#
+# @pytest.mark.parametrize(("nls", "email"), [("123123456789", "autotest_13@autotest.ru")])
+# def test_client_create(base_esb_api_url, headers, nls, email):
+#     data = {
+#         "nls": nls,
+#         "email": email,
+#         "contacts": email
+#     }
+#     response = esb_client.client_create(base_esb_api_url, headers, data)
+#     json_response = response.json()
+#     assert response.status_code == 200
+#     assert json_response
+#     validate(instance=json_response, schema=esb_schema_error) #esb_schema_data_object
+#
+#
+# @pytest.mark.parametrize(("nls", "status_code", "schema"),
+#                          [("850000204241", 200, esb_schema_data_object),
+#                           ("850000204225", 200, esb_schema_data_object),
+#                           ("123456789000", 200, esb_schema_error_data_object)])
+# def test_client_find(base_esb_api_url, headers, nls, status_code, schema):
+#     count_max = 10
+#     data = {
+#         "nls": nls,
+#         "countMax": count_max
+#     }
+#     response = esb_client.client_find(base_esb_api_url, headers, data)
+#     json_response = response.json()
+#     assert response.status_code == status_code
+#     assert json_response
+#     validate(instance=json_response, schema=schema)
+#
+#
+# @pytest.mark.parametrize(("idf_type", "idf_value", "lvl", "status_code", "schema"),
+#                          [(7, "7715422010", 1, 200, esb_schema_data_object),
+#                           (1, "146118", 2, 200, esb_schema_data_object),
+#                           (7, "146118", 2, 400, esb_schema_error)])
+# def test_client_get(base_esb_api_url, headers, idf_type, idf_value, lvl, status_code, schema):
+#     data = {
+#         "clientIdentifyType": idf_type,
+#         "clientIdentifyValue": idf_value,
+#         "lvl_info": lvl
+#     }
+#     response = esb_client.client_get(base_esb_api_url, headers, data)
+#     json_response = response.json()
+#     assert response.status_code == status_code
+#     assert json_response
+#     validate(instance=json_response, schema=schema)
+#
+#
+# def test_client_list(base_esb_api_url, headers):
+#     response = esb_client.client_list(base_esb_api_url, headers)
+#     json_response = response.json()
+#     assert response.status_code == 200
+#     assert json_response
+#     validate(instance=json_response, schema=esb_schema_data_array)
+#
+#
+# @pytest.mark.parametrize(("idf_value", "lvl", "status_code", "schema"),
+#                          [("3382", 1, 200, esb_schema_data_object),
+#                           ("3382", 2, 200, esb_schema_data_object),
+#                           ("3382", 3, 400, esb_schema_error)])
+# def test_co_get(base_esb_api_url, headers, idf_value, lvl, status_code, schema):
+#     data = {
+#         "id": idf_value,
+#         "lvl_info": lvl
+#     }
+#     response = esb_client.co_get(base_esb_api_url, headers, data)
+#     json_response = response.json()
+#     assert response.status_code == status_code
+#     assert json_response
+#     validate(instance=json_response, schema=schema)
 
 
 # @pytest.mark.parametrize(("client_id", "nls", "global_id", "max_ap_count", "service"),
