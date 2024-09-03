@@ -123,7 +123,7 @@ def test_co_create(base_esb_api_url, headers, client_id, nls, global_id, max_ap_
 
 
 def test_co_update(base_esb_api_url, headers):
-    co_id = 3483
+    co_id = 3596
     name_row = esb_client.name_date()
     name = "co/update " + name_row
     contacts = "contacts" + name_row
