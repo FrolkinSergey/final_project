@@ -110,10 +110,9 @@ class PollPage(BasePage):
         callendars = self.get_elements(self.POLL_CANELDAR)
         ebd_calendar = callendars[1]
         ebd_calendar.click()
-        return self.POLL_CURRENTDATE
-        # cur_date_in_ebd_calendar = self.get_elements(self.POLL_CURRENTDATE)
-        # cur_date = cur_date_in_ebd_calendar[1]
-        # cur_date.click()
+        cur_date_in_ebd_calendar = self.get_elements(self.POLL_CURRENTDATE)
+        cur_date = cur_date_in_ebd_calendar[1]
+        cur_date.click()
 
     def poll_imp_manage_by_votes(self):
         """Заполнение вклдаки Управление опросами завершение по количеству ответов"""
