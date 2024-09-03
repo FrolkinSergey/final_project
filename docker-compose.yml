@@ -1,5 +1,3 @@
-version: '3'
-
 services:
 
   selenoid:
@@ -15,11 +13,12 @@ services:
     image: "aerokube/selenoid-ui"
     network_mode: bridge
     depends_on:
-      - selenoid
+      - chrome124
+      - chrome123
     links:
       - selenoid
     ports:
-      - "8090:8080"
+      - "8080:8080"
     command: [ "--selenoid-uri", "http://${LOCAL_IP}:4444" ]
 
   chrome124:
@@ -27,10 +26,10 @@ services:
     depends_on:
       - selenoid
 
-#  chrome123:
-#    image: selenoid/chrome:123.0
-#    depends_on:
-#      - selenoid-ui
+  chrome123:
+    image: selenoid/chrome:123.0
+    depends_on:
+      - selenoid
 
   tests:
     image: tests_container:v1
@@ -38,7 +37,7 @@ services:
       dockerfile: tests/Dockerfile
     depends_on:
       - selenoid-ui
-    command: pytest /tests -n ${N} --panel ${PANEL} --stand ${STAND} --url ${LOCAL_IP} --browser ${BROWSER} --bv "${BV}.0" --component_id ${COMPONENT} --employee ${EMPLOYEE} --login_type ${LOGINTYPE} --vnc
+    command: pytest /tests -n ${N} --panel ${PANEL} --stand ${STAND} --url ${LOCAL_IP} --browser ${BROWSER} --bv ${BV} --component_id ${COMPONENT} --employee ${EMPLOYEE} --login_type ${LOGINTYPE} --vnc
     container_name: tests_container
     volumes:
       - "./allure-results/:/allure-results/"
